@@ -1,0 +1,74 @@
+<h3>Register form</h3>
+<p *ngIf="successMsg" class="success-msg" >{{successMsg}}</p>
+<form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+  <table>
+    <tr>
+      <td>email:</td>
+      <td>
+        <input type="email" class="form-control" formControlName="email">
+        <div *ngIf="registerForm.get('email').invalid && registerForm.get('email').touched" class="error-msg">Invalid
+          email
+        </div>
+      </td>
+    </tr>
+    <tr>
+      <td>Password:</td>
+      <td formGroupName="pwGroup">
+        <input type="password" formControlName="password">
+      </td>
+      <div class="error-msg"
+           *ngIf="registerForm.get('pwGroup.password').invalid && registerForm.get('pwGroup.password').touched">Must has
+        at least 6 characters
+      </div>
+    </tr>
+    <tr>
+      <td>Confirm password:</td>
+      <td formGroupName="pwGroup"><input type="password" formControlName="confirmPassword"></td>
+      <div class="error-msg"
+           *ngIf="registerForm.hasError('passwordnotmatch',['pwGroup']) && registerForm.get('pwGroup.confirmPassword').touched">
+        Pass
+        word does not match!
+      </div>
+    </tr>
+    <tr>
+      <td>Country</td>
+      <td>
+        <select formControlName="country">
+          <option *ngFor="let country of countries" [ngValue]="country">{{country}}</option>
+        </select>
+      </td>
+      <div class="error-msg" *ngIf="registerForm.get('country').invalid && registerForm.get('country').touched">
+        Required
+      </div>
+    </tr>
+    <tr>
+      <td>Age:</td>
+      <td><input type="number" formControlName="age"></td>
+      <div class="error-msg" *ngIf="registerForm.get('age').invalid && registerForm.get('age').touched">Min = 18</div>
+    </tr>
+    <tr>
+      <td>Gender:</td>
+      <td>
+        <div *ngFor="let gender of genders">
+          <input type="radio" name="gender" value="{{gender}}" formControlName="gender">
+          <label>{{gender}}</label>
+        </div>
+      </td>
+      <div class="error-msg" *ngIf="registerForm.get('gender').invalid && registerForm.get('gender').touched">Required
+      </div>
+    </tr>
+    <tr>
+      <td>Phone:</td>
+      <td><input type="text" formControlName="phone"></td>
+      <div class="error-msg" *ngIf="registerForm.get('phone').invalid && registerForm.get('phone').touched">Wrong phone
+        format
+      </div>
+    </tr>
+    <tr>
+      <td></td>
+      <td>
+        <button>Register</button>
+      </td>
+    </tr>
+  </table>
+</form>
